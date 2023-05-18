@@ -14,5 +14,15 @@ for dt in tournament_dates[:5]:
     print(f"{base_url}/{dt.date()}")
 
 urls = [f"{base_url}/{dt.date()}" for dt in tournament_dates]
+response = requests.get(urls[0])
+response.text
 
-print(urls)
+soup = BeautifulSoup(response.text, 'html.parser')
+
+fixtures = soup.find_all('artcle',{'class':'spc-c-fixture'})
+
+home = fixtures[0].select_one('.sp-c-fixture__team--home .sp-c-fixture__team-name-trunc').text
+away = fixtures[0].select_one('.sp-c-fixture__team--away .sp-c-fixture__team-name-trunc').text
+home_goals = fixtures[0].select_one('.sp-c-fixture__number--home').text
+away_goals = fixtures[0].select_one('.sp-c-fixture__number--away').text
+
