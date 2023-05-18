@@ -19,10 +19,21 @@ response.text
 
 soup = BeautifulSoup(response.text, 'html.parser')
 
-fixtures = soup.find_all('artcle',{'class':'spc-c-fixture'})
+# fixtures = soup.find_all('article',{'class':'sp-c-fixture'})
+fixtures = soup.findAll("td", attrs={"class":"sp-c-fixture"})
 
-home = fixtures[0].select_one('.sp-c-fixture__team--home .sp-c-fixture__team-name-trunc').text
-away = fixtures[0].select_one('.sp-c-fixture__team--away .sp-c-fixture__team-name-trunc').text
+home = fixtures[0].select_one('.sp-c-fixture__team-name--home .sp-c-fixture__team-name-trunc').text
+
+
+
+
+# home = fixtures[0].select_one('.sp-c-fixture__team-name sp-c-fixture__team-name--home').text 
+away = fixtures[0].select_one('.sp-c-fixture__team-name--away .sp-c-fixture__team-name-trunc').text
+# away = fixtures[0].select_one('.sp-c-fixture__team-name.sp-c-fixture__team-name-away').text 
 home_goals = fixtures[0].select_one('.sp-c-fixture__number--home').text
 away_goals = fixtures[0].select_one('.sp-c-fixture__number--away').text
 
+def show_result(home, home_goals, away, away_goals) -> str:
+    return f"{home}  {home_goals}  -  {away}  {away_goals}"
+
+show_result(home, home_goals, away, away_goals)

@@ -1,25 +1,35 @@
+# File created by Abdullah Anwar 
 
-# imports library requests
-
-
-
+# Imports the libraries needed for this program
+# Beautiful Soup is 
 from bs4 import BeautifulSoup
 import requests
+import pandas as pd
 
 page_to_scrape = requests.get("https://www.espn.com/soccer/stats/_/league/ENG.1/season/2017/english-premier-league")
 soup = BeautifulSoup(page_to_scrape.text, "html.parser")
 goals = soup.findAll("td", attrs={"class":"tar"})
 scorers = soup.findAll("a",attrs={"class":"AnchorLink"})
-# for scorer in scorers:
-#     print(scorer.text)
-# for goal in goals:
-#     print(goal.text)
-# for game in games:
-#     print(games.text)
+titles = soup.find("header", attrs={"class:db Site__Header__Wrapper sticky top-0"})
 
+# Remove the element if found
+if titles:
+    titles.extract()
+
+data = []
 for i in range(len(goals)):
-    print(scorers[i].text + " " + goals[i].text + " Goals") 
- 
+    scorer = scorers[i].text
+    goal = goals[i].text
+    data.append([scorer, goal])
+
+df = pd.DataFrame(data, columns=["Scorer", "Goals"])
+print(df)
+
+
+
+
+
+
 
 
 
